@@ -28,3 +28,6 @@ Route::get('/auth/callback',[AuthentificationController::class, 'callback'])->mi
 Route::get('/auth/logout',[AuthentificationController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/dashboard',[DashboardController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/create-form', function(){
+   return view('create-form');
+})->name('create-form')->middleware('auth');

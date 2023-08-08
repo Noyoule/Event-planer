@@ -21,7 +21,7 @@
 
 </head>
 
-<body class="font-regular dark:text-slate-100 dark:bg-slate-800">
+<body class="font-regular dark:text-slate-100 dark:bg-slate-800" style="padding-top: 65px">
     @include('layouts.navigation')
     @yield('content')
 </body>
