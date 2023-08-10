@@ -18,12 +18,13 @@
     <!-- Styles -->
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-
+    @livewireStyles
 </head>
 
 <body class="font-regular dark:text-slate-100 dark:bg-slate-800" style="padding-top: 65px">
     @include('layouts.navigation')
     @yield('content')
+    @livewireScripts
 </body>
 
 </html>
