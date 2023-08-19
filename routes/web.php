@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 
 Route::get('/auth/redirect', [AuthentificationController::class, 'redirect'])->name('login')->middleware('guest');
-Route::get('/auth/callback',[AuthentificationController::class, 'callback'])->middleware('guest');
+Route::get('/auth/callback',[AuthentificationController::class, 'callback'])->middleware('guest')->name('callback');
 Route::get('/auth/logout',[AuthentificationController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/dashboard',[DashboardController::class, 'index'])->middleware('auth')->name('home');

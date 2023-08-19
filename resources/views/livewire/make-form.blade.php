@@ -1,6 +1,7 @@
-<main x-data="{ config: @entangle('config'), current_path: @entangle('current_path') }">
+<main>
     <section>
-        <div class="flex max-w-screen p-1 bg-green-200 text-green-500 border-green-700 items-center justify-between lg:mt-3">
+        <div
+            class="flex max-w-screen p-1 bg-green-200 text-green-500 border-green-700 items-center justify-between lg:mt-3">
             <div class="flex items-center gap-2">
                 <a href="{{ route('home') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -37,27 +38,92 @@
             </div>
         </div>
     </section>
-    <section class="flex flex-col items-center bg-slate-50 min-h-screen p-4">
+    {{-- Partie de création du formulaire --}}
+    <section x-data="{ config: @entangle('config'), current_path: @entangle('current_path') }" class="flex flex-col items-center bg-slate-100 min-h-screen p-4">
+        {{--
+        -- "config": est le json de configuration de formulaire
+        -- "current_path": est juste un (chemin d’accès) qui fait reference à la parti du formulaire clicker à une
+        partie dans le json
+        --}}
         <div config_path="" @click="current_path = $event.target.getAttribute('config_path')"
-            class="w-11/12 lg:w-3/5  bg-white rounded-lg shadow-sm pt-3 pl-3 m-2">
-            @if ($config['image'] != '')
-                <img src="{{ $config['image'] }}" alt="">
-                <livewire:components.input-image>
+            @mouseenter=" $el.childNodes[3].classList.remove('hidden')"
+            @mouseleave=" $el.childNodes[3].classList.add('hidden')"
+            x-transition:enter="transition ease-out duration-900"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-900"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90" class="w-11/12 lg:w-3/5 my-4">
+            <div config_path="" class="bg-white pt-3 px-3 rounded-lg shadow-sm">
+                @if ($config['image'] != '')
+                    <div config_path="">
+                        <img src="{{ $config['image'] }}" alt="">
+                        <livewire:components.input-image>
+                    </div>
                 @else
                     <livewire:components.input-image>
-            @endif
-            @livewire('components.put-label', ['placeholder' => "Sans Titre","config_path" =>"titre","big"=>true,"large"=>false])
-            @livewire('components.put-label', ['placeholder' => "Description du formulaire","config_path" =>"description","big"=>true,"large"=>true])
+                @endif
+                @livewire('components.put-label', ['placeholder' => 'Sans Titre', 'config_path' => 'titre', 'big' => true, 'large' => false])
+                @livewire('components.put-label', ['placeholder' => 'Description du formulaire', 'config_path' => 'description', 'big' => true, 'large' => true])
+            </div>
+            <div class="hidden">
+                <livewire:components.new-element :wire:key="'begin'">
+            </div>
         </div>
         @php
             $count = 0;
         @endphp
         @foreach ($config['elements'] as $element)
-            <div config_path="{{ 'elements.' . $count }}"
-                @click="current_path = $event.target.getAttribute('config_path')"
-                class="w-11/12 lg:w-3/5  bg-white rounded-lg shadow-sm pt-3 pl-3 m-2">Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Provident, deleniti. Vel odit, quisquam, sequi error quam voluptate
-                voluptates sint commodi, et consequatur dolore eius ullam totam nulla nesciunt. Non, corrupti.</div>
+            <div config_path="{{ 'elements.' . $count }}" @mouseenter=" $el.childNodes[3].classList.remove('hidden')"
+                @mouseleave=" $el.childNodes[3].classList.add('hidden')"
+                x-transition:enter="transition ease-out duration-900"
+                x-transition:enter-start="opacity-0 transform scale-90"
+                x-transition:enter-end="opacity-100 transform scale-100"
+                x-transition:leave="transition ease-in duration-900"
+                x-transition:leave-start="opacity-100 transform scale-100"
+                x-transition:leave-end="opacity-0 transform scale-90" class="w-11/12 lg:w-3/5 my-4">
+                <div class="relative pt-4 bg-white px-3 rounded-lg shadow-sm">
+                    @if ($element['type'] != 'image' && $element['type'] != 'video' && $element['type'] != 'titre_description')
+                            <div class="mt-2">
+                                {{-- Placons le composant livewire en fonction de type de question choisi --}}
+                                @switch($element["type"])
+                                    @case('reponse_courte')
+                                        <livewire:components.short-answer :wire:key="'reponsecourte' . $count"
+                                            :config_path="'elements.' . $count" :element_position="$count">
+                                    @break
+                                    @case('reponse_long')
+                                        <livewire:components.long-answer :wire:key="'reponselong' . $count" :element_position="$count">
+                                    @break
+                                    @case('radio')
+                                        <livewire:components.input-radio :wire:key="'radio2 '. $count" :element_position="$count">
+                                    @break
+                                    @case('checkbox')
+                                         <livewire:components.input-check-box :wire:key="'checkbox' . $count" :element_position="$count">
+                                    @break
+                                    @case('select')
+                                        <livewire:components.input-select :wire:key="'select' . $count" :element_position="$count">
+                                    @break
+                                    @default
+                                @endswitch
+                            </div>
+                        @else
+                            {{-- Au cas ou l'utilisateur décide d'ajouter un élément autre qu'une question (image; video, titre et description) --}}
+                            @switch($element["type"])
+                                @case('image')
+                                    <livewire:components.image :wire:key="'image' . $count">
+                                @break
+                                @case('video')
+                                     <livewire:components.video :wire:key="'video' . $count">
+                                @break
+                                @default
+                            @endswitch
+                      @endif
+            </div>
+                {{-- Composant livewire permettant d'ajouter un nouvel élément --}}
+                <div class="hidden" @click="current_path = $el.parentNode.getAttribute('config_path')">
+                    <livewire:components.new-element :wire:key="'new_element.' . $count">
+                </div>
+            </div>
             @php
                 $count++;
             @endphp

@@ -21,7 +21,7 @@ class PutLabel extends Component
     }
 
     public function updatedText(){
-        $this -> emitUp("updateConfig",$this->text);
+        $this -> emitUp("updateConfigIn",$this->text);
     }
 
     public function render()
