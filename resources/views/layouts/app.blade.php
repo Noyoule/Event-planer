@@ -17,8 +17,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
     <!-- Styles -->
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 
@@ -27,4 +26,9 @@
     @yield('content')
     @livewireScripts
 </body>
+<style>
+    [x-cloak] {
+    display: none;
+}
+</style>
 </html>

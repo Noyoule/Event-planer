@@ -1,4 +1,4 @@
-<nav class="fixed bg-white top-0 left-0 right-0 shadow-md flex items-center justify-between px-2 dark:bg-slate-900 dark:text-slate-100"
+<nav  x-cloak class="fixed bg-white top-0 left-0 right-0 shadow-md flex items-center justify-between px-2 dark:bg-slate-900 dark:text-slate-100"
     x-data="nav_data">
     <div class="flex gap-1 items-center">
         <svg @click=" menuOpen=true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

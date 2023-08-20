@@ -13,7 +13,7 @@ class MakeForm extends Component
     public function mount()
     {
         $this->config  = array(
-            "titre" => "",
+            "title" => "",
             "default_title" =>"Sans titre",
             "description" => "",
             "default_description" =>"Aucune description",

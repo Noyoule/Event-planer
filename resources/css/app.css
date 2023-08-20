@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-input ,select{
+input,
+select {
     outline: none;
 }
+
+[x-cloak] { display: none !important; }

@@ -9,7 +9,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
                 </a>
-                <p class="text-xl font-display">{{ $config['titre'] }}</p>
+                <p class="text-xl font-display">{{ $config['title'] }}</p>
                 <p>{{ $current_path }}</p>
             </div>
             <div>
@@ -39,7 +39,7 @@
         </div>
     </section>
     {{-- Partie de création du formulaire --}}
-    <section x-data="{ config: @entangle('config'), current_path: @entangle('current_path') }" class="flex flex-col items-center bg-slate-100 min-h-screen p-4">
+    <section x-cloak x-data="{ config: @entangle('config'), current_path: @entangle('current_path') }" class="flex flex-col items-center bg-slate-100 min-h-screen p-4">
         {{--
         -- "config": est le json de configuration de formulaire
         -- "current_path": est juste un (chemin d’accès) qui fait reference à la parti du formulaire clicker à une
@@ -63,7 +63,7 @@
                 @else
                     <livewire:components.input-image>
                 @endif
-                @livewire('components.put-label', ['placeholder' => 'Sans Titre', 'config_path' => 'titre', 'big' => true, 'large' => false])
+                @livewire('components.put-label', ['placeholder' => 'Sans Titre', 'config_path' => 'title', 'big' => true, 'large' => false])
                 @livewire('components.put-label', ['placeholder' => 'Description du formulaire', 'config_path' => 'description', 'big' => true, 'large' => true])
             </div>
             <div class="hidden">
@@ -92,7 +92,7 @@
                                             :config_path="'elements.' . $count" :element_position="$count">
                                     @break
                                     @case('reponse_long')
-                                        <livewire:components.long-answer :wire:key="'reponselong' . $count" :element_position="$count">
+                                        <livewire:components.long-answer :wire:key="'reponselong' . $count" :config_path="'elements.' . $count" :element_position="$count">
                                     @break
                                     @case('radio')
                                         <livewire:components.input-radio :wire:key="'radio2 '. $count" :element_position="$count">

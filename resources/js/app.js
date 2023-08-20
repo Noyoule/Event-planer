@@ -21,15 +21,15 @@ Alpine.data('nav_data', () => ({
 
 Alpine.directive('changetype', (el, { modifiers, expression }, { evaluate }) => {
     const expressions = expression.split(',').map(expr => expr.trim());
+    const label_range = parseInt(modifiers[1]) + 1
     el.addEventListener('click', () => {
       if(evaluate(expressions[1])){
         switch (modifiers[0]) {
             case "reponse_courte":
-                console.log(modifiers)
                 var array = {
                     "type": "reponse_courte",
                     "label": "",
-                    "default_label": "Question" + modifiers[1],
+                    "default_label": "Question " + label_range,
                     "image": "",
                     "required": false
                 }
@@ -38,6 +38,7 @@ Alpine.directive('changetype', (el, { modifiers, expression }, { evaluate }) => 
                 var array = {
                     "type": "reponse_long",
                     "label": "",
+                    "default_label": "Question " + label_range,
                     "image": "",
                     "required": false
                 }
@@ -98,11 +99,10 @@ Alpine.directive('changetype', (el, { modifiers, expression }, { evaluate }) => 
 })
 
 Alpine.directive('putvalue', (el, { expression }, { evaluate }) => {
-    el.addEventListener('click', do_action);
     function do_action() {
-        const expressions = expression.split(',').map(expr => expr.trim());
-        let config = evaluate(expressions[0]);
-        const segments = evaluate(expressions[1]).split('.');;
+        let config = evaluate(expression);
+        let Current_path = el.parentNode.getAttribute('config_path') + '.' + el.getAttribute('config_path')
+        const segments = Current_path.split('.')
         // console.log(config)
         console.log(segments)
         let copieCurrent_config
@@ -112,17 +112,19 @@ Alpine.directive('putvalue', (el, { expression }, { evaluate }) => {
             if (segment === "") {
                 continue;
             }
-            config = config[segment];
             copieCurrent_config = config;
+            config = config[segment];
         }
 
-        if (data === "") {
-            el.placeholder = config["default" + segment]
+        if (config === "") {
+            console.log("default_" + segment)
+            el.placeholder = copieCurrent_config["default_" + segment]
         } else {
-            console.log(config)
             el.value = config
         }
     }
+    el.addEventListener('click', do_action)
+    do_action()
 })
 
 Alpine.start()
