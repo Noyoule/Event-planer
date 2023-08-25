@@ -26,9 +26,4 @@
     @yield('content')
     @livewireScripts
 </body>
-<style>
-    [x-cloak] {
-    display: none;
-}
-</style>
 </html>

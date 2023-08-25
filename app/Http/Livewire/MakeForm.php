@@ -8,7 +8,7 @@ class MakeForm extends Component
 {
     public $config;
     public $current_path = "";
-    protected $listeners = ['updateConfigIn'=>'updateConfigIn','updateConfigNext'=>'updateConfigNext'];
+    protected $listeners = ['updateConfigIn'=>'updateConfigIn','updateConfigNext'=>'updateConfigNext','update-question-rang' => 'QuestionOrder'];
 
     public function mount()
     {
@@ -50,7 +50,24 @@ class MakeForm extends Component
         if($indice==''){
             array_unshift($elements,$data);
         } else $elements =  array_merge(array_slice($elements,0, $indice+1), [$data], array_slice($elements, $indice+1));
+        $this-> QuestionOrder();
     }
+
+
+    /* fonction pour mettre à jours l'ordre des questions */
+    public function QuestionOrder(){
+        $elements = &$this->config['elements'];
+        
+        for($i = 0;  $i < count($elements); $i++){
+            $element = &$elements[$i];
+            if(!isset($element['default_label'])){
+                continue;
+            }
+            $element['default_label'] = "Question ".$i +1;
+        }
+    }
+
+
     public function render()
     {
         return view('livewire.make-form');

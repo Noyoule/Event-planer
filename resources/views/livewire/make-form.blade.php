@@ -63,11 +63,11 @@
                 @else
                     <livewire:components.input-image>
                 @endif
-                @livewire('components.put-label', ['placeholder' => 'Sans Titre', 'config_path' => 'title', 'big' => true, 'large' => false])
-                @livewire('components.put-label', ['placeholder' => 'Description du formulaire', 'config_path' => 'description', 'big' => true, 'large' => true])
+                @livewire('components.put-label', ['config_path' => 'title', 'big' => true, 'large' => false])
+                @livewire('components.put-label', ['config_path' => 'description', 'big' => true, 'large' => true])
             </div>
             <div class="hidden">
-                <livewire:components.new-element :wire:key="'begin'">
+                <livewire:components.new-element :wire:key="'begin'" :element_position="-1">
             </div>
         </div>
         @php
@@ -95,7 +95,7 @@
                                         <livewire:components.long-answer :wire:key="'reponselong' . $count" :config_path="'elements.' . $count" :element_position="$count">
                                     @break
                                     @case('radio')
-                                        <livewire:components.input-radio :wire:key="'radio2 '. $count" :element_position="$count">
+                                        <livewire:components.input-radio :wire:key="'radio2 '. $count" :config_path="'elements.' . $count" :element_position="$count" :option_count="count($config['elements'][$count]['options'])">
                                     @break
                                     @case('checkbox')
                                          <livewire:components.input-check-box :wire:key="'checkbox' . $count" :element_position="$count">
@@ -121,7 +121,7 @@
             </div>
                 {{-- Composant livewire permettant d'ajouter un nouvel élément --}}
                 <div class="hidden" @click="current_path = $el.parentNode.getAttribute('config_path')">
-                    <livewire:components.new-element :wire:key="'new_element.' . $count">
+                    <livewire:components.new-element :wire:key="'new_element.' . $count" :element_position="$count">
                 </div>
             </div>
             @php

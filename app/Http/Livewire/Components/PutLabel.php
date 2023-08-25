@@ -7,14 +7,12 @@ use Livewire\Features\Placeholder;
 
 class PutLabel extends Component
 {
-    public $placeholder;
     public $config_path;
     public $text;
     public $big;
     public $large;
 
-    public function mount($placeholder, $config_path, $big, $large){
-        $this -> placeholder = $placeholder;
+    public function mount($config_path, $big, $large){
         $this -> config_path = $config_path;
         $this -> big = $big;
         $this -> large = $large;
